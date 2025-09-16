@@ -29,10 +29,11 @@ async def start(message: Message):
     await message.answer("Send me any message or forward message...")
 
 
-id_message = """message's id = {message_id}
-your user_id = {user_id}
-message's author id = {author_id}
-forwarded from chat id = {chat_id}
+id_message = """Message's id: {message_id}
+Your user_id: {user_id}
+Message's author id: {author_id}
+Forwarded from chat id: {chat_id}
+Forwarded from chat message_id: {chat_message_id}
 """
 
 
@@ -43,6 +44,7 @@ async def get_id(message: Message):
         message_id=message.message_id, user_id=message.from_user.id, 
         author_id=message.forward_from.id if message.forward_from else "",
         chat_id=message.forward_from_chat.id if message.forward_from_chat else "",
+        chat_message_id=message.forward_from_message_id or "",
     ))
 
 

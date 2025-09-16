@@ -24,7 +24,7 @@ bot = Bot(BOT_TOKEN)
 dp = Dispatcher()
 
 
-@dp.message(CommandStart)
+@dp.message(CommandStart())
 async def start(message: Message):
     await message.answer("Send me any message or forward message...")
 

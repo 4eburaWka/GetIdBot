@@ -1,0 +1,37 @@
+name: MAIN
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  Deploy:
+    name: Deploy the project to the server
+    runs-on: ubuntu-latest
+    steps:
+      - name: Restart
+        uses: garygrossgarten/github-action-ssh@release
+        with:
+          command: |
+            cd projects/ZUBR
+
+            git pull
+
+            docker build \
+              --build-arg BUILDKIT_INLINE_CACHE=1 \
+              --cache-from zubr-fe \
+              -t zubr-fe .
+            
+            docker stop zubr-fe || true
+            docker rm zubr-fe || true
+
+            docker run -d \
+              --network network \
+              --restart always \
+              --name zubr-fe \
+              zubr-fe
+        
+          host: ${{ secrets.SSH_HOST }}
+          port: ${{ secrets.SSH_PORT }}
+          username: root
+          password: ${{ secrets.SSH_PASSWORD }}

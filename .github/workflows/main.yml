@@ -13,23 +13,24 @@ jobs:
         uses: garygrossgarten/github-action-ssh@release
         with:
           command: |
-            cd projects/ZUBR
+            cd projects/GetIdBot
 
             git pull
 
             docker build \
               --build-arg BUILDKIT_INLINE_CACHE=1 \
-              --cache-from zubr-fe \
-              -t zubr-fe .
+              --cache-from get-id-bot \
+              -t get-id-bot .
             
-            docker stop zubr-fe || true
-            docker rm zubr-fe || true
+            docker stop get-id-bot || true
+            docker rm get-id-bot || true
 
             docker run -d \
               --network network \
               --restart always \
-              --name zubr-fe \
-              zubr-fe
+              --name get-id-bot \
+              --env-file .env \
+              get-id-bot
         
           host: ${{ secrets.SSH_HOST }}
           port: ${{ secrets.SSH_PORT }}

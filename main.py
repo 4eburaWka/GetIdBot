@@ -39,7 +39,7 @@ Forwarded from chat message_id: {chat_message_id}
 
 @dp.message()
 async def get_id(message: Message):
-    logging.info(message.forward_from)
+    logging.info(message.forward_from_chat)
     await message.answer(text=id_message.format(
         message_id=message.message_id, user_id=message.from_user.id, 
         author_id=message.forward_from.id if message.forward_from else "",

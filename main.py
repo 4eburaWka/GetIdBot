@@ -32,17 +32,17 @@ async def start(message: Message):
 id_message = """Message's id: {message_id}
 Your user_id: {user_id}
 Message's author id: {author_id}
+Message's author language: {author_language}
 Forwarded from chat id: {chat_id}
 Forwarded from chat message_id: {chat_message_id}
 """
 
-
 @dp.message()
 async def get_id(message: Message):
-    logging.info(message.forward_from_chat)
     await message.answer(text=id_message.format(
         message_id=message.message_id, user_id=message.from_user.id, 
         author_id=message.forward_from.id if message.forward_from else "",
+        author_language=message.forward_from.language_code if message.forward_from else "",
         chat_id=message.forward_from_chat.id if message.forward_from_chat else "",
         chat_message_id=message.forward_from_message_id or "",
     ))

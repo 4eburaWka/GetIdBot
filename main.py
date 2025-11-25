@@ -4,7 +4,7 @@ import logging
 
 from aiogram import Bot, Dispatcher
 from aiogram.types import Message
-from aiogram.filters import CommandStart
+from aiogram.filters import CommandStart, Command
 from dotenv import load_dotenv
 
 
@@ -27,6 +27,9 @@ dp = Dispatcher()
 @dp.message(CommandStart())
 async def start(message: Message):
     await message.answer("Send me any message or forward message...")
+@dp.message(Command("video"))
+async def start(message: Message):
+    await message.answer_video("https://youtu.be/NED7nev2ywQ?si=ZLTLAYtTtBJCK1-1")
 
 
 id_message = """Message's id: {message_id}
